@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Kenangan - Bapak Takari Widodo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variabel warna hijau */
+        :root {
+            --primary-color: #2e8b57;
+            --primary-light: #3cb371;
+            --primary-dark: #1d5c3a;
+            --secondary-color: #f1f8e9;
+            --text-color: #333;
+            --text-light: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Reset dan base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Header styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--text-light);
+            padding: 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            height: 400px;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(46, 139, 87, 0.7), rgba(29, 92, 58, 0.8));
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 2rem 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Slider Styles */
+       .slider-container {
+    width: 100%;
+    position: relative;
+    height: 250px; /* Ukuran yang lebih ringkas */
+    overflow: hidden;
+    margin: 0 auto;
+    background: #000;
+}
+
+        .slider {
+            display: flex;
+            width: 400%; /* For 4 slides */
+            height: 100%;
+            transition: transform 0.8s ease;
+        }
+
+        .slide {
+            width: 25%; /* 100% / number of slides */
+            height: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .slide-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-content p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: var(--primary-light);
+        }
+
+        .slider-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s ease;
+        }
+
+        .slider-control:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .slider-control.prev {
+            left: 20px;
+        }
+
+        .slider-control.next {
+            right: 20px;
+        }
+
+        /* Media query untuk layar desktop/laptop */
+@media (min-width: 769px) {
+    .slider-container {
+        height: 500px; /* Atur tinggi yang lebih besar untuk laptop */
+    }
+}
+
+        /* Navigation */
+       nav {
+            background-color: var(--primary-dark);
+            padding: 0.8rem 0;
+            box-shadow: var(--shadow);
+            position: fixed; /* <-- DIUBAH MENJADI FIXED */
+            top: 0;
+            left: 0; /* Tambahkan ini agar lebar penuh */
+            width: 100%; /* Tambahkan ini agar lebar penuh */
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container li {
+            margin: 0 1.5rem;
+        }
+
+        .nav-container a {
+            color: var(--text-light);
+            font-weight: 500;
+            padding: 0.8rem 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .nav-container a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--text-light);
+            transition: width 0.3s ease;
+        }
+
+        .nav-container a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-container a:hover::after {
+            width: 80%;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-light);
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 101;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-light);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+            transform-origin: center;
+        }
+
+        .hamburger.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            nav {
+                position: top;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-container {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: linear-gradient(135deg, var(--primary-dark), #144329);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 5rem 2rem 2rem 2rem;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-container.active {
+                right: 0;
+                transform: translateX(0);
+            }
+
+            .nav-container li {
+                margin: 0.5rem 0;
+                width: 100%;
+                opacity: 0;
+                transform: translateX(20px);
+                transition: all 0.3s ease;
+            }
+
+            .nav-container.active li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-container li:nth-child(1) { transition-delay: 0.1s; }
+            .nav-container li:nth-child(2) { transition-delay: 0.2s; }
+            .nav-container li:nth-child(3) { transition-delay: 0.3s; }
+            .nav-container li:nth-child(4) { transition-delay: 0.4s; }
+
+            .nav-container a {
+                display: block;
+                padding: 1rem 1.5rem;
+                font-size: 1.1rem;
+                border-radius: 8px;
+                width: 100%;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .nav-container a::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .nav-container a:hover::before {
+                left: 100%;
+            }
+
+            .nav-container a::after {
+                display: none;
+            }
+
+            .nav-container a:hover {
+                background-color: rgba(255, 255, 255, 0.15);
+                transform: translateX(5px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+
+           .nav-overlay {
+    /* ... kode lain ... */
+    backdrop-filter: blur(3px);
+    pointer-events: none; /* Tambahkan ini */
+}
+
+.nav-overlay.active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto; /* Ubah ini saat aktif */
+}
+
+            /* Responsive slider */
+            .slider-container {
+                height: 350px; /* Adjusted height for mobile */
+            }
+
+            .slide-content {
+                padding: 1.5rem;
+            }
+
+            .slide-content h3 {
+                font-size: 1.5rem;
+            }
+
+            .slider-control {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-dark);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            margin-bottom: 4rem;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .hero-text h3 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-item i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-img {
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Featured Section */
+        .featured-section {
+            margin-bottom: 4rem;
+        }
+
+        .featured-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .featured-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .featured-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .featured-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-item:hover .featured-img {
+            transform: scale(1.1);
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 2rem 1.5rem 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .featured-item:hover .featured-overlay {
+            transform: translateY(0);
+        }
+
+        .featured-overlay h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .cta-btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-btn.primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .cta-btn.primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 139, 87, 0.3);
+        }
+
+        .cta-btn.secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .cta-btn.secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Recent Section */
+        .recent-section {
+            margin-bottom: 4rem;
+        }
+
+        .recent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .recent-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .recent-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .recent-icon {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .recent-content h4 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .recent-content p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .recent-date {
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-dark), #144329);
+            color: var(--text-light);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header {
+                height: 300px;
+            }
+
+            .header-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .hero-text h3 {
+                font-size: 1.6rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .featured-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .recent-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .hamburger {
+                right: 1rem;
+                padding: 0.6rem;
+            }
+
+            .hamburger span {
+                width: 22px;
+                height: 2.5px;
+            }
+
+            .nav-container {
+                width: 260px;
+                padding: 4rem 1.5rem 2rem 1.5rem;
+            }
+
+            /* Responsive slider for small mobile */
+            .slider-container {
+                height: 250px; /* Adjusted height for smaller mobile */
+            }
+
+            .slide-content {
+                padding: 1rem;
+            }
+
+            .slide-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .slide-content p {
+                font-size: 0.9rem;
+            }
+
+            .slider-control {
+                width: 30px;
+                height: 30px;
+            }
+
+            .slider-dot {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        /* Extra small mobile devices */
+        @media (max-width: 360px) {
+            header {
+                height: 200px;
+            }
+
+            .header-content {
+                padding: 0.8rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .tagline {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-container" id="nav-menu">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="gallery.html">Galeri Foto</a></li>
+            <li><a href="videos.html">Video Kenangan</a></li>
+            <li><a href="about.html">Tentang</a></li>
+        </ul>
+        <div class="nav-overlay" id="nav-overlay"></div>
+    </nav>
+
+    <div class="slider-container">
+        <div class="slider" id="slider">
+            <div class="slide">
+                <img src="fotoslider1.png" alt="fotoslider1">
+                <div class="slide-content">
+                    <h3>WISUDA SMKN 1 CERME GRESIK Tahun 2022</h3>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="fotoslider2.JPG" alt="fotoslider2">
+                <div class="slide-content">
+                    <h3> EVENT JPVOT SMKN 1 CERME</h3>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="fotoslider3.png" alt="fotoslider3">
+                <div class="slide-content">
+                    <h3> EVENT OSIS(JET) SMKN 1 CERME </h3>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="fotoslider4.png" alt="fotoslider4">
+                <div class="slide-content">
+                    <h3>Pelepasan Siswa-siswi SMK Negeri 1 Cerme Tahun 2025</h3>
+                </div>
+            </div>
+        </div>
+
+        <button class="slider-control prev" id="prev" aria-label="Previous slide">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-control next" id="next" aria-label="Next slide">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <div class="slider-nav" id="slider-nav">
+            </div>
+        </div>
+
+    <main class="container">
+        <section id="home">
+            <div class="hero-section">
+                <h2 class="section-title">Selamat Datang</h2>
+                    <div class="hero-image">
+                        <img src="kontenutama1.JPG" alt="kontenutama1" class="hero-img">
+                    </div>
+                </div>
+            </div>
+
+            <div class="featured-section">
+                <h3 class="section-subtitle">Foto kenangan</h3>
+                <div class="featured-gallery">
+                    <div class="featured-item">
+                        <img src="konten1.png" alt="konten1" class="featured-img">
+                        <div class="featured-overlay">
+                            <h4>Takari Widodo, S.Pd, M.T.</h4>
+                            <p>Kepala Sekolah SMKN 1 CERME </p>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="fikri.jpg" alt="konten2" class="featured-img">
+                        <div class="featured-overlay">
+                            <h4>SelamatPurna Tugas</h4>
+                            <p>SMKN 1 CERME GRESIK</p>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="konten3.png" alt="konten3" class="featured-img">
+                        <div class="featured-overlay">
+                            <h4>Opening Ceremony (JET)</h4>
+                            <p>EVENT TAHUNAN OSIS SMKN 1 CERME</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="cta-buttons">
+                    <a href="gallery.html" class="cta-btn primary">Lihat Semua Foto</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <h3>Album Kenangan</h3>
+            <p>Menyimpan setiap kenangan berharga dalam bentuk digital</p>
+
+           
+            <p class="copyright">&copy; 2025 TeamFourNice. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+    const navLinks = document.querySelectorAll('.nav-container a');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Cek apakah link adalah link halaman lokal (dimulai dengan #)
+            if (this.hash !== "") {
+                // Mencegah perilaku default dari link
+                e.preventDefault();
+                
+                const hash = this.hash;
+                const targetElement = document.querySelector(hash);
+
+                if (targetElement) {
+                    // Scroll ke elemen target dengan perilaku smooth
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            } else {
+                // Untuk link yang mengarah ke halaman lain, biarkan default behavior
+                return true;
+            }
+        });
+    });
+}); 
+
+    
+        // Slider Functionality
+        const slider = document.getElementById('slider');
+        const slides = slider.querySelectorAll('.slide');
+        const navDotsContainer = document.getElementById('slider-nav');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        // Create navigation dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('slider-dot');
+            if (i === currentSlide) {
+                dot.classList.add('active');
+            }
+            navDotsContainer.appendChild(dot);
+        }
+
+        const navDots = navDotsContainer.querySelectorAll('.slider-dot');
+
+        // Function to update slider position and active dot
+        function goToSlide(index) {
+            if (index >= totalSlides) {
+                index = 0; // Wrap around to the first slide
+            } else if (index < 0) {
+                index = totalSlides - 1; // Wrap around to the last slide
+            }
+            currentSlide = index;
+            slider.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
+
+            // Update active dot
+            navDots.forEach((dot, i) => {
+                if (i === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Event listeners for navigation buttons
+        prevButton.addEventListener('click', () => {
+            goToSlide(currentSlide - 1);
+        });
+
+        nextButton.addEventListener('click', () => {
+            goToSlide(currentSlide + 1);
+        });
+
+        // Event listeners for navigation dots
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
+        });
+
+        // Auto-slide functionality (optional)
+        let autoSlideInterval;
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                goToSlide(currentSlide + 1);
+            }, 5000); // Change slide every 5 seconds
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        // Start auto-slide when the page loads and stop on hover
+        startAutoSlide();
+        const sliderContainer = document.querySelector('.slider-container');
+        sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+        sliderContainer.addEventListener('mouseleave', startAutoSlide);
+
+
+        // Hamburger Menu Functionality
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const navOverlay = document.getElementById('nav-overlay'); // Ensure this element exists in HTML
+
+        // Toggle menu
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            // Prevent scrolling when menu is open
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu when clicking outside of it or on an overlay
+        navOverlay.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close menu when a nav link is clicked (optional, good for single-page apps)
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+</body>
+</html>

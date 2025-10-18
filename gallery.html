@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Foto - Album Kenangan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variabel warna hijau */
+        :root {
+            --primary-color: #2e8b57;
+            --primary-light: #3cb371;
+            --primary-dark: #1d5c3a;
+            --secondary-color: #f1f8e9;
+            --text-color: #333;
+            --text-light: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Reset dan base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Header styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--text-light);
+            padding: 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            height: 400px;
+        }
+
+        .header-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: scale(1.1);
+        }
+
+        .header-slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .header-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(46, 139, 87, 0.7), rgba(29, 92, 58, 0.8));
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 2rem 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+       /* Slider Styles */
+       .slider-container {
+    width: 100%;
+    position: relative;
+    height: 250px; /* Ukuran yang lebih ringkas */
+    overflow: hidden;
+    margin: 0 auto;
+    background: #000;
+}
+
+        .slider {
+            display: flex;
+            width: 400%; /* For 4 slides */
+            height: 100%;
+            transition: transform 0.8s ease;
+        }
+
+        .slide {
+            width: 25%; /* 100% / number of slides */
+            height: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .slide-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-content p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: var(--primary-light);
+        }
+
+        .slider-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s ease;
+        }
+
+        .slider-control:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .slider-control.prev {
+            left: 20px;
+        }
+
+        .slider-control.next {
+            right: 20px;
+        }
+
+        /* Media query untuk layar desktop/laptop */
+@media (min-width: 769px) {
+    .slider-container {
+        height: 500px; /* Atur tinggi yang lebih besar untuk laptop */
+    }
+}
+
+        /* Navigation */
+        nav {
+            background-color: var(--primary-dark);
+            padding: 0.8rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container li {
+            margin: 0 1.5rem;
+        }
+
+        .nav-container a {
+            color: var(--text-light);
+            font-weight: 500;
+            padding: 0.8rem 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .nav-container a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--text-light);
+            transition: width 0.3s ease;
+        }
+
+        .nav-container a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-container a:hover::after {
+            width: 80%;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-light);
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 101;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-light);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+            transform-origin: center;
+        }
+
+        .hamburger.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            nav {
+                position: top;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-container {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: linear-gradient(135deg, var(--primary-dark), #144329);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 5rem 2rem 2rem 2rem;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-container.active {
+                right: 0;
+                transform: translateX(0);
+            }
+
+            .nav-container li {
+                margin: 0.5rem 0;
+                width: 100%;
+                opacity: 0;
+                transform: translateX(20px);
+                transition: all 0.3s ease;
+            }
+
+            .nav-container.active li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-container li:nth-child(1) { transition-delay: 0.1s; }
+            .nav-container li:nth-child(2) { transition-delay: 0.2s; }
+            .nav-container li:nth-child(3) { transition-delay: 0.3s; }
+            .nav-container li:nth-child(4) { transition-delay: 0.4s; }
+
+            .nav-container a {
+                display: block;
+                padding: 1rem 1.5rem;
+                font-size: 1.1rem;
+                border-radius: 8px;
+                width: 100%;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .nav-container a::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .nav-container a:hover::before {
+                left: 100%;
+            }
+
+            .nav-container a::after {
+                display: none;
+            }
+
+            .nav-container a:hover {
+                background-color: rgba(255, 255, 255, 0.15);
+                transform: translateX(5px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Overlay untuk mobile menu */
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                backdrop-filter: blur(3px);
+            }
+
+            .nav-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+        }
+
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-dark);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* Gallery grid */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.05);
+        }
+
+        .gallery-content {
+            padding: 1rem;
+        }
+
+        .gallery-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .gallery-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .gallery-date {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        /* Gallery Filters */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+          .featured-video {
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--secondary-color), #e8f5e8);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-dark), #144329);
+            color: var(--text-light);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .gallery-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .filter-btn {
+                width: 200px;
+            }
+        }
+
+        .mini-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;
+    background: var(--primary-dark);
+    color: var(--text-light);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* Pastikan di atas elemen lain */
+    transition: transform 0.3s ease;
+    cursor: grab; /* Menandakan bisa diseret */
+}
+
+.mini-player.dragging {
+    cursor: grabbing;
+    opacity: 0.9;
+}
+
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: var(--primary-color);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.player-header span {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.close-btn:hover {
+    opacity: 1;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 10px;
+}
+
+.control-btn {
+    background: var(--primary-light);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.control-btn:hover {
+    background: #349c63;
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+.track-info {
+    flex-grow: 1;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 5px;
+}
+
+.mini-player.hidden {
+    transform: translateX(300px); /* Geser keluar layar saat disembunyikan */
+    opacity: 0;
+}
+
+.progress-container {
+    padding: 0 15px 10px;
+}
+
+#progress-bar {
+    width: 100%;
+    height: 6px;
+    appearance: none; /* Reset gaya default browser */
+    border: none;
+    border-radius: 3px;
+    background-color: #555;
+    cursor: pointer;
+}
+
+/* Mengatur warna isian progress bar di Chrome/Safari */
+#progress-bar::-webkit-progress-value {
+    background-color: var(--primary-light);
+    border-radius: 3px;
+}
+
+/* Mengatur warna isian progress bar di Firefox */
+#progress-bar::-moz-progress-bar {
+    background-color: var(--primary-light);
+    border-radius: 3px;
+}
+
+.time-display {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+}
+
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .hamburger {
+                right: 1rem;
+                padding: 0.6rem;
+            }
+
+            .hamburger span {
+                width: 22px;
+                height: 2.5px;
+            }
+
+            .nav-container {
+                width: 260px;
+                padding: 4rem 1.5rem 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+   <div id="mini-player" class="mini-player">
+        <div class="player-header" id="player-header">
+            <i class="fas fa-music"></i>
+            <span>Putar Musik</span>
+            <button class="close-btn" onclick="closePlayer()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="player-controls">
+            <audio id="background-music" src="cintaterbaik.mp3" loop preload="auto"></audio> 
+            
+            <button id="play-pause-btn" class="control-btn">
+                <i class="fas fa-play"></i>
+            </button>
+            <div class="track-info">
+                <span id="track-name">Cinta Terbaik</span>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <progress id="progress-bar" value="0" max="100"></progress>
+            <div class="time-display">
+                <span id="current-time" class="time">0:00</span> / 
+                <span id="duration-time" class="time">0:00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-container" id="nav-menu">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="gallery.html">Galeri Foto</a></li>
+            <li><a href="videos.html">Video Kenangan</a></li>
+            <li><a href="about.html">Tentang</a></li>
+        </ul>
+    </nav>
+    
+         <div class="slider-container">
+        <div class="slider" id="slider">
+            <div class="slide">
+                <img src="fotoslider1.png" alt="fotoslider1">
+                <div class="slide-content">
+                    <h3>WISUDA SMKN 1 CERME GRESIK Tahun 2022</h3>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="fotoslider2.JPG" alt="fotoslider2">
+                <div class="slide-content">
+                    <h3> EVENT JPVOT SMKN 1 CERME</h3>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="fotoslider3.png" alt="fotoslider3">
+                <div class="slide-content">
+                    <h3> EVENT OSIS(JET) SMKN 1 CERME </h3>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="fotoslider4.png" alt="fotoslider4">
+                <div class="slide-content">
+                    <h3>Pelepasan Siswa-siswi SMK Negeri 1 Cerme Tahun 2025</h3>
+                </div>
+            </div>
+        </div>
+
+        <button class="slider-control prev" id="prev" aria-label="Previous slide">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-control next" id="next" aria-label="Next slide">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <div class="slider-nav" id="slider-nav">
+            </div>
+    </div>
+
+
+    <!-- Mobile Menu Overlay -->
+    <div class="nav-overlay" id="nav-overlay"></div>
+
+    <main class="container">
+     
+        <section class="featured-video">
+            <h3>Teruntuk Bapak</h3>
+            <p>"Silakan dinikmati momen-momen istimewa yang telah kami abadikan dalam galeri ini. Setiap foto memiliki cerita dan kenangan tersendiri, yang kami persembahkan dengan ketulusan untuk Bapak."</p>
+            <div class="featured-video-wrapper">
+            </div>
+        </main>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Photo Gallery Section -->
+        <section id="gallery">
+            <h2 class="section-title">Galeri Foto</h2>
+            
+            <div class="gallery">
+                <!-- Photo 1 -->
+                <div class="gallery-item" data-category="nature">
+                    <img src="konten1.png" alt="konten1" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">Bapak Takari Widodo, S.Pd, M.T.</h3>
+                        <p class="gallery-desc">Kepala Sekolah SMKN 1 CERME</p>
+                    </div>
+                </div>
+                
+                <!-- Photo 2 -->
+                
+            <div class="gallery-item" data-category="family">
+                    <img src="fikri.jpg" alt="konten2" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">Selamat Purna Tugas</h3>
+                        <p class="gallery-desc">SMKN 1 CERME GRESIK</p>
+                    </div>
+                </div>
+                
+                <!-- Photo 3 -->
+                <div class="gallery-item" data-category="travel">
+                    <img src="konten3.png" alt="Petualangan" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">Opening Ceremony (JET)</h3>
+                        <p class="gallery-desc">EVENT OSIS SMKN 1 CERME</p>
+                    </div>
+                </div>
+                
+                <!-- Photo 4 -->
+                <div class="gallery-item" data-category="celebration">
+                    <img src="kontenutama1.JPG" alt="Perayaan" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">Momen Spesial</h3>
+                        <p class="gallery-desc">Upacara Hari Pramuka SMKN 1 CERME</p>
+                    </div>
+                </div>
+                
+                <!-- Photo 5 -->
+                <div class="gallery-item" data-category="family">
+                    <img src="fotbarplpunesa.png" alt="fotbarplpunesa" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">PLP UNESA Tahun 2024</h3>
+                        <p class="gallery-desc">Foto Bersama PLP UNESA Tahun 2024</p>
+                    </div>
+                </div>
+                
+                <!-- Photo 6 -->
+                <div class="gallery-item" data-category="nature">
+                    <img src="pilketos2023.jpg" alt="pilketos2024="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title"> Pilketos Priode 2024-2025 </h3>
+                        <p class="gallery-desc">SMKN 1 CERME GRESIK</p>
+                    </div>
+                </div>
+
+                <!-- Photo 7 -->
+                <div class="gallery-item" data-category="travel">
+                    <img src="konten4.JPG" alt="konten4" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">Kegiatan Pramuka Wajib SMKN 1 CERME GRESIK</h3>
+                        <p class="gallery-desc">Kegiatan Pramuka Wajib Seluruh Siswa Siswi SMKN 1 CERME GRESIK</p>
+                    </div>
+                </div>
+
+                <!-- Photo 8 -->
+                <div class="gallery-item" data-category="celebration">
+                    <img src="observasi.jpg" alt="konten5" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">Observasi Lingkungan SMKN 1 CERME</h3>
+                        <p class="gallery-desc">Bersama Kepala Dinas Pendidikan Provinsi Jawa Timur</p>
+                    </div>
+                </div>
+
+                <!-- Photo 9 -->
+                <div class="gallery-item" data-category="family">
+                    <img src="fotoslider1.png" alt="sambutan" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">Wisuda SMKN 1 CERME Angkatan 2022</h3>
+                        <p class="gallery-desc">SMKN 1 CERME Angkatan 2022 </p>
+                    </div>
+                </div>
+
+                <!-- Photo 10 -->
+                <div class="gallery-item" data-category="nature">
+                    <img src="fotosmelting.jpg" alt="fotosmelting" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">MoU Bersama PT SMELTING </h3>
+                        <p class="gallery-desc">23 Januari 2025</p>
+                    </div>
+                </div>
+
+                <!-- Photo 11 -->
+                <div class="gallery-item" data-category="celebration">
+                    <img src="fotoslider2.JPG" alt="Acara" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">OLIMPIADE JPVOT </h3>
+                        <p class="gallery-desc">EVENT OSIS SMKN 1 CERME</p>
+                    </div>
+                </div>
+
+                <!-- Photo 12 -->
+                <div class="gallery-item" data-category="travel">
+                    <img src="fotoslider4.png" alt="Acara" class="gallery-img">
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">Pelepasan Siswa-siswi SMK Negeri 1 Cerme Tahun 2025</h3>
+                        <p class="gallery-desc"> SMKN 1 CERME GRESIK</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Album Kenangan</h3>
+            <p>Menyimpan setiap kenangan berharga dalam bentuk digital</p>
+
+           
+            <p class="copyright">&copy; 2025 TeamFourNice. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Slider Functionality
+        const slider = document.getElementById('slider');
+        const slides = slider.querySelectorAll('.slide');
+        const navDotsContainer = document.getElementById('slider-nav');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        // Create navigation dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('slider-dot');
+            if (i === currentSlide) {
+                dot.classList.add('active');
+            }
+            navDotsContainer.appendChild(dot);
+        }
+
+        const navDots = navDotsContainer.querySelectorAll('.slider-dot');
+
+        // Function to update slider position and active dot
+        function goToSlide(index) {
+            if (index >= totalSlides) {
+                index = 0; // Wrap around to the first slide
+            } else if (index < 0) {
+                index = totalSlides - 1; // Wrap around to the last slide
+            }
+            currentSlide = index;
+            slider.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
+
+            // Update active dot
+            navDots.forEach((dot, i) => {
+                if (i === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Event listeners for navigation buttons
+        prevButton.addEventListener('click', () => {
+            goToSlide(currentSlide - 1);
+        });
+
+        nextButton.addEventListener('click', () => {
+            goToSlide(currentSlide + 1);
+        });
+
+        // Event listeners for navigation dots
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
+        });
+
+        // Auto-slide functionality (optional)
+        let autoSlideInterval;
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                goToSlide(currentSlide + 1);
+            }, 5000); // Change slide every 5 seconds
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        // Start auto-slide when the page loads and stop on hover
+        startAutoSlide();
+        const sliderContainer = document.querySelector('.slider-container');
+        sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+        sliderContainer.addEventListener('mouseleave', startAutoSlide);
+
+
+        // Hamburger Menu Functionality
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const navOverlay = document.getElementById('nav-overlay'); // Ensure this element exists in HTML
+
+        // Toggle menu
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            // Prevent scrolling when menu is open
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu when clicking outside of it or on an overlay
+        navOverlay.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close menu when a nav link is clicked (optional, good for single-page apps)
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        const miniPlayer = document.getElementById('mini-player');
+const audio = document.getElementById('background-music');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const playPauseIcon = playPauseBtn.querySelector('i');
+const progressBar = document.getElementById('progress-bar');
+const currentTimeDisplay = document.getElementById('current-time');
+const durationTimeDisplay = document.getElementById('duration-time');
+
+let isPlaying = false; // Status awal musik
+
+// 1. Fungsi Toggle Putar/Jeda
+function togglePlayPause() {
+    if (isPlaying) {
+        audio.pause();
+        playPauseIcon.classList.remove('fa-pause');
+        playPauseIcon.classList.add('fa-play');
+    } else {
+        // Coba putar audio. Autoplay sering diblokir, jadi perlu interaksi user.
+        audio.play().catch(error => {
+            console.error("Gagal memutar audio:", error);
+            // Opsional: Tampilkan pesan kepada user jika gagal
+        });
+        playPauseIcon.classList.remove('fa-play');
+        playPauseIcon.classList.add('fa-pause');
+    }
+    isPlaying = !isPlaying; // Balik status
+}
+
+// Event listener untuk tombol Play/Pause
+playPauseBtn.addEventListener('click', togglePlayPause);
+
+// 2. Fungsi Tutup Player
+window.closePlayer = function() {
+    audio.pause(); // Hentikan musik saat ditutup
+    isPlaying = false;
+    playPauseIcon.classList.remove('fa-pause');
+    playPauseIcon.classList.add('fa-play');
+    miniPlayer.classList.add('hidden'); // Sembunyikan player
+}
+
+// 3. Update Waktu dan Progress Bar
+audio.addEventListener('loadedmetadata', () => {
+    // Set durasi total setelah metadata dimuat
+    durationTimeDisplay.textContent = formatTime(audio.duration);
+    progressBar.max = audio.duration;
+    // Set nilai awal progress bar
+    progressBar.value = audio.currentTime; 
+});
+
+audio.addEventListener('timeupdate', () => {
+    // Update progress bar dan waktu saat lagu diputar
+    progressBar.value = audio.currentTime;
+    currentTimeDisplay.textContent = formatTime(audio.currentTime);
+});
+
+// 4. Fungsi Klik Progress Bar (untuk loncat)
+progressBar.addEventListener('click', (e) => {
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left; // Posisi klik dari kiri bar
+    const width = rect.width;
+    const duration = audio.duration;
+    
+    // Hitung waktu baru
+    const newTime = (clickX / width) * duration;
+    
+    // Set waktu audio
+    if (isFinite(newTime)) {
+        audio.currentTime = newTime;
+        // Jika sedang tidak play, kita putar
+        if (!isPlaying) {
+            togglePlayPause();
+        }
+    }
+});
+
+// Fungsi pembantu untuk format waktu
+function formatTime(seconds) {
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+}
+
+// 5. Membuat Mini-Player dapat diseret (Drag & Drop)
+const playerHeader = document.getElementById('player-header');
+let isDragging = false;
+let currentX;
+let currentY;
+let initialX;
+let initialY;
+let xOffset = 0;
+let yOffset = 0;
+
+playerHeader.addEventListener("mousedown", dragStart);
+document.addEventListener("mouseup", dragEnd);
+document.addEventListener("mousemove", drag);
+
+function dragStart(e) {
+    initialX = e.clientX - xOffset;
+    initialY = e.clientY - yOffset;
+
+    if (e.target === playerHeader || playerHeader.contains(e.target)) {
+        isDragging = true;
+        miniPlayer.classList.add('dragging');
+    }
+}
+
+function dragEnd(e) {
+    initialX = currentX;
+    initialY = currentY;
+
+    isDragging = false;
+    miniPlayer.classList.remove('dragging');
+}
+
+function drag(e) {
+    if (isDragging) {
+        e.preventDefault();
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+
+        xOffset = currentX;
+        yOffset = currentY;
+
+        setTranslate(currentX, currentY, miniPlayer);
+    }
+}
+
+function setTranslate(xPos, yPos, el) {
+    el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+}
+
+    </script>
+    </script>
+</body>
+</html> 
